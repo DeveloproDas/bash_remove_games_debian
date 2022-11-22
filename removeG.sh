@@ -65,7 +65,7 @@ function removeG_ {
 
 function appendPkg() {
     for moreg in "$@"; do
-        listLines[${#listLines[@]}]=$(dpkg -l | grep -i $moreg)
+        listLines[${#listLines[@]}]=$(dpkg -l | grep -i "$moreg")
         errorCode=$?
         if [ $errorCode -ne 0 ]; then # Different to 
             echo -e "\nPackage $moreg not found.\n"
