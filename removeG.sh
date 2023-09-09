@@ -38,14 +38,14 @@ function removeG_ {
     echo
     case $opt in
         y)
-            if [ $errorCode -eq 0 ]; then # Do not execute if any package is not found.
+            if [[ $errorCode -eq 0 ]]; then # Do not execute if any package is not found.
                 for line in "${listLines[@]}"; do #Every line was store in listLines.
                     listLine=($line) #Every line is turn into array separeted by space.
                     echo "Removing ${listLine[1]} ..."
                     apt-get --yes purge ${listLine[1]} > /dev/null 2>&1 #Removing and don't print out
                     #wait #Wait the process until finish
                     errorCode=$?
-                    if [ $errorCode -eq 0 ]; then #If it succeeded unistalling, print message.
+                    if [[ $errorCode -eq 0 ]]; then #If it succeeded unistalling, print message.
                         echo "${listLine[1]} remove successfully"
                     else
                         echo "Error trying to remove ${listLine[1]}"
@@ -67,18 +67,18 @@ function appendPkg() {
     for moreg in "$@"; do
         listLines[${#listLines[@]}]=$(dpkg -l | grep -i "$moreg")
         errorCode=$?
-        if [ $errorCode -ne 0 ]; then # Different to 
+        if [[ $errorCode -ne 0 ]]; then # Different to 
             echo -e "\nPackage $moreg not found.\n"
             exit 1
         fi
     done
 }
 
-if [ $# -eq 0 ]; then
+if [[ $# -eq 0 ]]; then
     removeG_
 elif [[ $# -eq 1 && ${parameters[0]} == "--help" ]]; then
     removeG_help
-elif [ $# -gt 0 ]; then
+elif [[ $# -gt 0 ]]; then
     appendPkg "$@"
     removeG_
 else
